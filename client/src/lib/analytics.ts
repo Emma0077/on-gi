@@ -29,8 +29,8 @@ export function trackFBEvent(eventName: string, params?: Record<string, any>): v
  * Track form submission completion (CompleteRegistration and Lead)
  */
 export function trackCompleteRegistration(data: { email: string; name: string }): void {
-  // Google Analytics
-  trackEvent('sign_up', {
+  // Google Analytics - 설문완료 이벤트
+  trackEvent('설문완료', {
     method: 'email',
     user_name: data.name,
   });
