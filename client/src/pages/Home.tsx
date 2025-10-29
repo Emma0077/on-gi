@@ -38,10 +38,7 @@ export default function Home() {
       };
 
       // Submit to backend API
-      const response = await apiRequest('/api/notifications', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
+      const response = await apiRequest('POST', '/api/notifications', payload);
 
       if (!response.ok) {
         throw new Error('Failed to submit form');
