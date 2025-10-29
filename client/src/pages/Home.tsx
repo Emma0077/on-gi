@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import FAQSection from "@/components/FAQSection";
 import FormModal from "@/components/FormModal";
 import StickyCTA from "@/components/StickyCTA";
 import { type InsertNotification } from "@shared/schema";
@@ -26,6 +27,7 @@ export default function Home() {
         <HeroSection onCTAClick={openModal} />
         <HowItWorksSection />
         <TestimonialsSection />
+        <FAQSection />
       </div>
       <StickyCTA onClick={openModal} />
       <FormModal 
