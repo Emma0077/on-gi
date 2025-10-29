@@ -17,8 +17,7 @@ export default function HeroSection({ onCTAClick }: HeroSectionProps) {
       
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-          나처럼 노력하는 청년에게,<br />
-          따뜻한 한 끼를 선물하세요.
+          지금, 나처럼 꿈꾸는 청년에게 따뜻한 한 끼를.
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed">
