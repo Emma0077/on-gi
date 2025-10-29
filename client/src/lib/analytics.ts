@@ -26,7 +26,7 @@ export function trackFBEvent(eventName: string, params?: Record<string, any>): v
 }
 
 /**
- * Track form submission completion (CompleteRegistration)
+ * Track form submission completion (CompleteRegistration and Lead)
  */
 export function trackCompleteRegistration(data: { email: string; name: string }): void {
   // Google Analytics
@@ -39,6 +39,12 @@ export function trackCompleteRegistration(data: { email: string; name: string })
   trackFBEvent('CompleteRegistration', {
     content_name: 'ON:GI Beta Signup',
     status: 'completed',
+  });
+
+  // Facebook Pixel - Lead event
+  trackFBEvent('Lead', {
+    content_name: 'ON:GI Beta Signup',
+    content_category: 'signup',
   });
 }
 
