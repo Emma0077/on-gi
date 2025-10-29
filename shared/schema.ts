@@ -31,7 +31,7 @@ export const insertNotificationSchema = createInsertSchema(notifications).omit({
 }).extend({
   name: z.string().min(1, "이름을 입력해주세요"),
   email: z.string().email("올바른 이메일 주소를 입력해주세요"),
-  phone: z.string().min(10, "올바른 전화번호를 입력해주세요").regex(/^[0-9-]+$/, "숫자만 입력해주세요"),
+  phone: z.string().optional().refine((val) => !val || /^[0-9-]+$/.test(val), "숫자만 입력해주세요"),
 });
 
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;

@@ -1,17 +1,17 @@
-import { useRef } from "react";
+import { useState } from "react";
+import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import StorySection from "@/components/StorySection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import CTAFormSection from "@/components/CTAFormSection";
+import FormModal from "@/components/FormModal";
 import StickyCTA from "@/components/StickyCTA";
 import { type InsertNotification } from "@shared/schema";
 
 export default function Home() {
-  const formRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const scrollToForm = () => {
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
   const handleFormSubmit = async (data: InsertNotification) => {
@@ -21,14 +21,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <HeroSection onCTAClick={scrollToForm} />
-      <StorySection />
-      <HowItWorksSection />
-      <TestimonialsSection />
-      <div ref={formRef}>
-        <CTAFormSection onSubmit={handleFormSubmit} id="signup-form" />
+      <Header onCTAClick={openModal} />
+      <div className="pt-[72px]">
+        <HeroSection onCTAClick={openModal} />
+        <HowItWorksSection />
+        <TestimonialsSection />
       </div>
-      <StickyCTA onClick={scrollToForm} />
+      <StickyCTA onClick={openModal} />
+      <FormModal 
+        open={isModalOpen} 
+        onOpenChange={setIsModalOpen} 
+        onSubmit={handleFormSubmit} 
+      />
     </div>
   );
 }

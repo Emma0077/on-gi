@@ -28,7 +28,7 @@ export default function TestimonialsSection() {
         
         <div className="text-center mb-12 md:mb-16">
           <Badge variant="secondary" className="text-base px-6 py-2">
-            지금까지 1,200명의 직장인이 온기에 함께했어요
+            지금까지 1,247명의 직장인이 온기에 함께했어요
           </Badge>
         </div>
         
