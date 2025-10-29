@@ -21,7 +21,12 @@ export const notifications = pgTable("notifications", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  phone: text("phone").notNull(),
+  phone: text("phone"),
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
+  utmTerm: text("utm_term"),
+  utmContent: text("utm_content"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -32,6 +37,11 @@ export const insertNotificationSchema = createInsertSchema(notifications).omit({
   name: z.string().min(1, "이름을 입력해주세요"),
   email: z.string().email("올바른 이메일 주소를 입력해주세요"),
   phone: z.string().optional().refine((val) => !val || /^[0-9-]+$/.test(val), "숫자만 입력해주세요"),
+  utmSource: z.string().optional(),
+  utmMedium: z.string().optional(),
+  utmCampaign: z.string().optional(),
+  utmTerm: z.string().optional(),
+  utmContent: z.string().optional(),
 });
 
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
