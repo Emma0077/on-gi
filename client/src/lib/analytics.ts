@@ -29,23 +29,24 @@ export function trackFBEvent(eventName: string, params?: Record<string, any>): v
  * Track form submission completion (CompleteRegistration and Lead)
  */
 export function trackCompleteRegistration(data: { email: string; name: string }): void {
-  // Google Analytics - 설문완료 이벤트
+  // Google Analytics - 설문완료 이벤트 (항상 전송)
   trackEvent('설문완료', {
     method: 'email',
     user_name: data.name,
   });
   
-  // Facebook Pixel - CompleteRegistration event (항상 전송)
-  trackFBEvent('CompleteRegistration', {
-    content_name: 'ON:GI Beta Signup',
-    status: 'completed',
-  });
-
-  // Facebook Pixel - Lead event (광고 클릭 세션만 전송)
+  // Facebook Pixel 이벤트 (광고 클릭 세션만 전송)
   const urlParams = new URLSearchParams(window.location.search);
   const fbclid = urlParams.get('fbclid');
   
   if (fbclid) {
+    // CompleteRegistration event
+    trackFBEvent('CompleteRegistration', {
+      content_name: 'ON:GI Beta Signup',
+      status: 'completed',
+    });
+
+    // Lead event
     trackFBEvent('Lead', {
       content_name: 'ON:GI Beta Signup',
       content_category: 'signup',
