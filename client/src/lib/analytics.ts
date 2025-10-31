@@ -35,17 +35,22 @@ export function trackCompleteRegistration(data: { email: string; name: string })
     user_name: data.name,
   });
   
-  // Facebook Pixel - CompleteRegistration event
+  // Facebook Pixel - CompleteRegistration event (항상 전송)
   trackFBEvent('CompleteRegistration', {
     content_name: 'ON:GI Beta Signup',
     status: 'completed',
   });
 
-  // Facebook Pixel - Lead event
-  trackFBEvent('Lead', {
-    content_name: 'ON:GI Beta Signup',
-    content_category: 'signup',
-  });
+  // Facebook Pixel - Lead event (광고 클릭 세션만 전송)
+  const urlParams = new URLSearchParams(window.location.search);
+  const fbclid = urlParams.get('fbclid');
+  
+  if (fbclid) {
+    trackFBEvent('Lead', {
+      content_name: 'ON:GI Beta Signup',
+      content_category: 'signup',
+    });
+  }
 }
 
 /**
