@@ -37,6 +37,12 @@
       fbq('track', 'PageView');
     </script>
     <!-- End Facebook Pixel Code -->
+    
+    <!-- Debug: Check URL parameters before React loads -->
+    <script>
+      console.log('🔴 [EARLY CHECK] Full URL:', window.location.href);
+      console.log('🔴 [EARLY CHECK] Search params:', window.location.search);
+    </script>
   </head>
   <body>
     <!-- Facebook Pixel Noscript -->
