@@ -88,8 +88,17 @@ export function initUTMTracking(): UTMParams {
   if (typeof window !== 'undefined') {
     const searchParams = new URLSearchParams(window.location.search);
     const fbclid = searchParams.get('fbclid');
+    
+    console.log('🔍 [UTM Tracking] Current URL:', window.location.href);
+    console.log('🔍 [UTM Tracking] Search params:', window.location.search);
+    console.log('🔍 [UTM Tracking] fbclid from URL:', fbclid);
+    
     if (fbclid) {
       saveFbclid(fbclid);
+      console.log('✅ [UTM Tracking] fbclid saved to localStorage:', fbclid);
+    } else {
+      const saved = getSavedFbclid();
+      console.log('ℹ️ [UTM Tracking] No fbclid in URL. Saved fbclid:', saved);
     }
   }
   

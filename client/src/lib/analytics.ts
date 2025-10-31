@@ -41,7 +41,11 @@ export function trackCompleteRegistration(data: { email: string; name: string })
     ? localStorage.getItem('ongi_fbclid')
     : null;
   
+  console.log('📊 [Analytics] Checking fbclid for pixel events:', fbclid);
+  
   if (fbclid) {
+    console.log('✅ [Analytics] Sending Facebook Pixel events (CompleteRegistration + Lead)');
+    
     // CompleteRegistration event
     trackFBEvent('CompleteRegistration', {
       content_name: 'ON:GI Beta Signup',
@@ -53,6 +57,8 @@ export function trackCompleteRegistration(data: { email: string; name: string })
       content_name: 'ON:GI Beta Signup',
       content_category: 'signup',
     });
+  } else {
+    console.log('⏭️ [Analytics] No fbclid found - skipping Facebook Pixel events');
   }
 }
 
