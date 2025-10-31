@@ -9,6 +9,7 @@ export interface UTMParams {
 }
 
 const UTM_STORAGE_KEY = 'ongi_utm_params';
+const FBCLID_STORAGE_KEY = 'ongi_fbclid';
 
 /**
  * Extract UTM parameters from URL query string
@@ -60,12 +61,37 @@ export function getSavedUTMParams(): UTMParams {
 }
 
 /**
+ * Save fbclid to localStorage
+ */
+export function saveFbclid(fbclid: string): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(FBCLID_STORAGE_KEY, fbclid);
+}
+
+/**
+ * Get saved fbclid from localStorage
+ */
+export function getSavedFbclid(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(FBCLID_STORAGE_KEY);
+}
+
+/**
  * Initialize UTM tracking on page load
- * Extracts UTM params from URL and saves to localStorage
+ * Extracts UTM params and fbclid from URL and saves to localStorage
  */
 export function initUTMTracking(): UTMParams {
   const urlParams = extractUTMParams();
   saveUTMParams(urlParams);
+  
+  // Also save fbclid if present
+  if (typeof window !== 'undefined') {
+    const searchParams = new URLSearchParams(window.location.search);
+    const fbclid = searchParams.get('fbclid');
+    if (fbclid) {
+      saveFbclid(fbclid);
+    }
+  }
   
   // Return either URL params or saved params (URL takes precedence)
   const hasURLParams = Object.values(urlParams).some(value => value !== undefined);

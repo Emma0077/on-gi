@@ -36,8 +36,10 @@ export function trackCompleteRegistration(data: { email: string; name: string })
   });
   
   // Facebook Pixel 이벤트 (광고 클릭 세션만 전송)
-  const urlParams = new URLSearchParams(window.location.search);
-  const fbclid = urlParams.get('fbclid');
+  // localStorage에 저장된 fbclid 확인 (URL에서 사라져도 유지됨)
+  const fbclid = typeof window !== 'undefined' 
+    ? localStorage.getItem('ongi_fbclid')
+    : null;
   
   if (fbclid) {
     // CompleteRegistration event
