@@ -17,6 +17,11 @@ app.use(express.json({
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
+  // Log all incoming requests with query parameters
+  if (req.query && Object.keys(req.query).length > 0) {
+    log(`📥 Request: ${req.method} ${req.path} Query: ${JSON.stringify(req.query)}`);
+  }
+  
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
