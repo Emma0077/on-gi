@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"; // useEffect 추가!
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { insertNotificationSchema, type InsertNotification } from "@shared/schema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { CheckCircle2 } from "lucide-react";
+import { trackCompleteRegistration } from "@/lib/analytics";
 
 interface CTAFormSectionProps {
   onSubmit: (data: InsertNotification) => Promise<void>;
@@ -17,6 +18,7 @@ interface CTAFormSectionProps {
 
 export default function CTAFormSection({ onSubmit, id }: CTAFormSectionProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isFromAd, setIsFromAd] = useState(false);
   
   const form = useForm<InsertNotification>({
     resolver: zodResolver(insertNotificationSchema),
@@ -27,8 +29,30 @@ export default function CTAFormSection({ onSubmit, id }: CTAFormSectionProps) {
     },
   });
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fbclid = urlParams.get('fbclid');
+    const utmSource = urlParams.get('utm_source');
+    
+    if (fbclid || utmSource) {
+      setIsFromAd(true);
+      console.log('✅ User from Ad detected', { fbclid, utmSource });
+    }
+  }, []);
+
   const handleSubmit = async (data: InsertNotification) => {
     await onSubmit(data);
+    
+    // 광고에서 온 사용자만 페이스북 픽셀 이벤트 전송
+    if (isFromAd) {
+      trackCompleteRegistration({
+        email: data.email,
+        name: data.name,
+      });
+    } else {
+      console.log('⚪ Skipping FB Pixel events (organic traffic)');
+    }
+    
     setIsSubmitted(true);
     form.reset();
   };
