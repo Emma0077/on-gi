@@ -23,6 +23,24 @@
       gtag('config', 'G-RX6J1JBKZG');
     </script>
     
+    <!-- Facebook Pixel fbclid 캡처 Code -->
+    <script>
+    (function () {
+      var m = location.search.match(/[?&]fbclid=([^&]+)/);
+      if (!m) return;
+      var fbclid = decodeURIComponent(m[1]);
+    
+      // 90일 저장 권장 (Meta 권장 기간)
+      document.cookie = "fbclid=" + fbclid + ";path=/;max-age=7776000;SameSite=Lax";
+      sessionStorage.setItem("fbclid", fbclid);
+    
+      // CAPI 매칭용 _fbc 쿠키도 생성(픽셀이 못 만들고 사라지는 경우 대비)
+      // 포맷: fb.1.<timestamp>.<fbclid>
+      var ts = Math.floor(Date.now() / 1000);
+      document.cookie = "_fbc=" + "fb.1." + ts + "." + fbclid + ";path=/;max-age=7776000;SameSite=Lax";
+    })();
+    </script>
+
     <!-- Facebook Pixel Code -->
     <script>
       !function(f,b,e,v,n,t,s)
