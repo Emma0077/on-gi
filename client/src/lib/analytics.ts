@@ -19,9 +19,22 @@ export function trackEvent(eventName: string, params?: Record<string, any>): voi
 /**
  * Track Facebook Pixel event
  */
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return m ? decodeURIComponent(m[2]) : null;
+}
+
+function isMetaAdSession() {
+  // 1순위: 쿠키/세션의 fbclid 보유
+  if (getCookie('fbclid') || sessionStorage.getItem('fbclid')) return true;
+  // 2순위: URL에 아직 남아있다면 그걸로
+  return new URLSearchParams(location.search).has('fbclid');
+}
 export function trackFBEvent(eventName: string, params?: Record<string, any>): void {
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('track', eventName, params);
+    if (isMetaAdSession()) {
+      window.fbq('track', eventName, params);
+    }
   }
 }
 
